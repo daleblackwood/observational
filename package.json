@@ -1,0 +1,13 @@
+{
+  "name": "observational",
+  "version": "1.0.0",
+  "description": "Tiny observers for javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "start": "node index"
+  },
+  "author": "Dale Blackwood",
+  "license": "MIT",
+  "generator": "http://npmjs.com/tinit"
+}
