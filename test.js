@@ -1,7 +1,7 @@
 /*--------- START TESTS ---------*/
 
 const assert = require("assert");
-const { Subject, Dipatcher } = require("./lib");
+const { Subject, Dipatcher } = require("./observational");
 
 const INITIAL_VALUE = "inital value";
 const SECOND_VALUE = "second value";
