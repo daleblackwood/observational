@@ -1,12 +1,10 @@
 {
   "name": "observational",
-  "version": "1.0.2",
+  "version": "1.1.4",
   "description": "Tiny observers for javascript",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node test",
-    "start": "node index",
-    "build": "tsc && cp package.json observational/"
+    "start": "node index"
   },
   "author": "Dale Blackwood",
   "license": "MIT",
