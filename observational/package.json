@@ -2,7 +2,7 @@
   "name": "observational",
   "version": "1.2.0",
   "description": "Tiny observers for javascript",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "node index"
   },
