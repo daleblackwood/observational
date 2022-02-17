@@ -10,5 +10,8 @@
   },
   "author": "Dale Blackwood",
   "license": "MIT",
-  "generator": "http://npmjs.com/tinit"
+  "generator": "http://npmjs.com/tinit",
+  "dependencies": {
+    "typescript": "^4.5.5"
+  }
 }

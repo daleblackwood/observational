@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.useSubject = void 0;
-var react_1 = require("react");
-function useSubject(subject, onMount, onUnmount) {
-    var _a = react_1.useState(subject.value), value = _a[0], onValueChange = _a[1];
-    var scope = {};
-    var isMounted = false;
-    var isDirty = false;
-    var handleValueChange = function (value) {
+import { useState, useEffect } from "react";
+export function useSubject(subject, onMount, onUnmount) {
+    const [value, onValueChange] = useState(subject.value);
+    const scope = {};
+    let isMounted = false;
+    let isDirty = false;
+    const handleValueChange = (value) => {
         isDirty = true;
         if (isMounted === false)
             return;
@@ -15,7 +12,7 @@ function useSubject(subject, onMount, onUnmount) {
         onValueChange(value);
     };
     subject.listen(scope, handleValueChange, { immediate: false });
-    react_1.useEffect(function () {
+    useEffect(() => {
         if (onMount)
             onMount();
         isMounted = true;
@@ -30,4 +27,3 @@ function useSubject(subject, onMount, onUnmount) {
     }, []);
     return [value, subject.setValue.bind(subject)];
 }
-exports.useSubject = useSubject;
