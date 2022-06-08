@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Subject } from "../Subject";
 
-export function subscribe<SubjectT extends Subject<ValueT>, ValueT>(subject: SubjectT, onMount?: () => void, onUnmount?: () => void): SubjectT {
-  const [value, onValueChange] = useState<ValueT>(subject.value);
+export function subscribe<T>(subject: Subject<T>, onMount?: () => void, onUnmount?: () => void): Subject<T> {
+  const [value, onValueChange] = useState<T>(subject.value);
   const scope = {};
   let isMounted = false;
   let isDirty = false;
-  const handleValueChange = (value: ValueT) => {
+  const handleValueChange = (value: T) => {
     isDirty = true;
     if (isMounted === false)
       return;
