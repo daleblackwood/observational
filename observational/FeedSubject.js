@@ -8,24 +8,36 @@
 import { Subject } from "./Subject";
 const DEFAULT_INTERVAL = 1000;
 export class FeedSubject extends Subject {
-    constructor(feedUpdater, interval = DEFAULT_INTERVAL) {
+    constructor(feedUpdater, interval = DEFAULT_INTERVAL, isRunning = true) {
         super([]);
         this.feedUpdater = feedUpdater;
         this.interval = interval;
+        this.isRunning = isRunning;
         // whether or not a request is loading
-        this.isLoading = false;
+        this.isLoading = true;
         // the last error in a request (blank from new request)
         this.error = null;
         /// if true, the feed will continue to operate even if a request fails
         this.continueAfterErrors = true;
-        this.scheduleNext();
+        this.scheduleTimeout = 0;
+        if (this.isRunning) {
+            this.updateFeed();
+        }
     }
     /// the last value stored on the feed, this should help retreive the following values
     get lastValue() { return this.value.length > 0 ? this.value[this.value.length - 1] : null; }
-    scheduleNext() {
-        setTimeout(() => this.updateFeed(), this.interval || DEFAULT_INTERVAL);
+    resume() {
+        this.isRunning = true;
+        if (!this.scheduleTimeout) {
+            this.updateFeed();
+        }
+    }
+    pause() {
+        this.isRunning = false;
     }
     updateFeed() {
+        clearTimeout(this.scheduleTimeout);
+        this.scheduleTimeout = 0;
         return new Promise((resolve, reject) => {
             this.value = null;
             this.error = null;
@@ -47,6 +59,13 @@ export class FeedSubject extends Subject {
                 }
             });
         });
+    }
+    scheduleNext() {
+        this.scheduleTimeout = setTimeout(() => {
+            if (this.isRunning) {
+                this.updateFeed();
+            }
+        }, this.interval || DEFAULT_INTERVAL);
     }
     setValue(newValue, forceUpdate) {
         this.isLoading = false;

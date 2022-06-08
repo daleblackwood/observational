@@ -6,10 +6,12 @@
 */
 import { Subject } from "./Subject";
 export class RequestSubject extends Subject {
-    constructor(requester, value = null, immediate = true) {
-        super(value);
+    constructor(initialValue, requester, immediate = true) {
+        super(initialValue);
+        this.initialValue = initialValue;
         this.requester = requester;
         this.isLoading = false;
+        this.revertValue = false;
         this.error = null;
         if (immediate) {
             this.request();
@@ -37,6 +39,6 @@ export class RequestSubject extends Subject {
     setError(error) {
         this.error = error;
         this.isLoading = false;
-        this.setValue(null);
+        this.setValue(this.revertValue ? this.initialValue : null);
     }
 }

@@ -6,13 +6,14 @@
 */
 import { Subject } from "./Subject";
 
-export class RequestSubject<T> extends Subject<T> {
+export class RequestSubject<T> extends Subject<T|null> {
 
   isLoading = false;
+  revertValue = false;
   error: Error = null;
 
-  constructor(public requester: () => Promise<T>, value: T = null, immediate = true) {
-    super(value);
+  constructor(public initialValue: T, public requester: () => Promise<T>, immediate = true) {
+    super(initialValue);
     if (immediate) {
       this.request();
     }
@@ -42,7 +43,7 @@ export class RequestSubject<T> extends Subject<T> {
   setError(error?: Error) {
     this.error = error;
     this.isLoading = false;
-    this.setValue(null);
+    this.setValue(this.revertValue ? this.initialValue : null);
   }
 
 }

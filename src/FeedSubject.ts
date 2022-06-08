@@ -12,7 +12,7 @@ const DEFAULT_INTERVAL = 1000;
 export class FeedSubject<T> extends Subject<T[]> {
 
   // whether or not a request is loading
-  isLoading = false;
+  isLoading = true;
 
   // the last error in a request (blank from new request)
   error: Error = null;
@@ -23,16 +23,29 @@ export class FeedSubject<T> extends Subject<T[]> {
   /// the last value stored on the feed, this should help retreive the following values
   get lastValue() { return this.value.length > 0 ? this.value[this.value.length - 1] : null; }
 
-  constructor(public feedUpdater: (lastValue: T|null) => Promise<T[]>, public interval: number = DEFAULT_INTERVAL) {
+  private scheduleTimeout = 0;
+
+  constructor(public feedUpdater: (lastValue: T|null) => Promise<T[]>, public interval: number = DEFAULT_INTERVAL, public isRunning = true) {
     super([]);
-    this.scheduleNext();
+    if (this.isRunning) {
+      this.updateFeed();
+    }
   }
 
-  private scheduleNext() {
-    setTimeout(() => this.updateFeed(), this.interval || DEFAULT_INTERVAL);
+  resume() {
+    this.isRunning = true;
+    if (!this.scheduleTimeout) {
+      this.updateFeed();
+    }
+  }
+
+  pause() {
+    this.isRunning = false;
   }
 
   updateFeed() {
+    clearTimeout(this.scheduleTimeout);
+    this.scheduleTimeout = 0;
     return new Promise((resolve, reject) => {
       this.value = null;
       this.error = null;
@@ -54,6 +67,14 @@ export class FeedSubject<T> extends Subject<T[]> {
         }
       });
     });
+  }
+
+  private scheduleNext() {
+    this.scheduleTimeout = setTimeout(() => {
+      if (this.isRunning) {
+        this.updateFeed();
+      }
+    }, this.interval || DEFAULT_INTERVAL);
   }
 
   setValue(newValue: T[], forceUpdate?: boolean): void {
