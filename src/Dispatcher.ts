@@ -1,8 +1,8 @@
 /*
   https://github.com/daleblackwood/ladts
-  LAD.Dispatcher dispatches objects, messages or values to registered
-  listeners. Unlike event dispatchers, LAD.Dispatcher has no type and
-  will dispatch to all methods registered to it.
+  A dispatcher dispatches objects, messages or values to registered listeners.
+  Unlike event dispatchers, Dispatcher sends a value that is not an event and
+  maintains its own listener list.
 */
 export type Handler<
   T = any,

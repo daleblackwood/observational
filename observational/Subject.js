@@ -1,6 +1,6 @@
 /*
   https://github.com/daleblackwood/ladts
-  LAD.Subject is a dispatcher with a value - an Observable
+  A Subject is a dispatcher with a value - an Observable
 */
 import { Dispatcher } from "./Dispatcher";
 export class Subject extends Dispatcher {

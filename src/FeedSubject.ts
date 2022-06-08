@@ -1,6 +1,9 @@
 /*
   https://github.com/daleblackwood/ladts
-  LAD.Subject is a dispatcher with a value - an Observable
+  FeedSubject is an observable that retains an array of values that grows with 
+  each subsequent request. It requires a getter that receives the most recent 
+  value. This is ideal for receiving a list of updates from an API, such as a 
+  notification system.
 */
 import { Subject } from "./Subject";
 
@@ -8,12 +11,17 @@ const DEFAULT_INTERVAL = 1000;
 
 export class FeedSubject<T> extends Subject<T[]> {
 
+  // whether or not a request is loading
   isLoading = false;
+
+  // the last error in a request (blank from new request)
   error: Error = null;
+
+  /// if true, the feed will continue to operate even if a request fails
   continueAfterErrors = true;
-  get lastValue() {
-    return this.value.length > 0 ? this.value[this.value.length - 1] : null;
-  }
+
+  /// the last value stored on the feed, this should help retreive the following values
+  get lastValue() { return this.value.length > 0 ? this.value[this.value.length - 1] : null; }
 
   constructor(public feedUpdater: (lastValue: T|null) => Promise<T[]>, public interval: number = DEFAULT_INTERVAL) {
     super([]);
@@ -29,6 +37,7 @@ export class FeedSubject<T> extends Subject<T[]> {
       this.value = null;
       this.error = null;
       this.isLoading = true;
+      // we feed that last value to the updater, so it may notify where to resume from
       this.feedUpdater(this.lastValue).then(x => {
         if (x instanceof Array && x.length > 0) {
           const newValue = this.value.concat(x);

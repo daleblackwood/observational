@@ -1,6 +1,8 @@
 /*
   https://github.com/daleblackwood/ladts
-  LAD.Subject is a dispatcher with a value - an Observable
+  A RequestSubject is an observable with a value received from a request.
+  Each time the request is made, the value is replaced wholesale. This is 
+  ideal for an API with a changing value.
 */
 import { Subject } from "./Subject";
 
@@ -9,8 +11,11 @@ export class RequestSubject<T> extends Subject<T> {
   isLoading = false;
   error: Error = null;
 
-  constructor(public requester: () => Promise<T>, value: T = null) {
+  constructor(public requester: () => Promise<T>, value: T = null, immediate = true) {
     super(value);
+    if (immediate) {
+      this.request();
+    }
   }
 
   request() {
