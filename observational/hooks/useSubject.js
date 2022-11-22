@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { requireLib } from "./hooklib";
 export function useSubject(subject, onMount, onUnmount) {
-    const [value, onValueChange] = useState(subject.value);
+    const lib = requireLib();
+    const [value, onValueChange] = lib.useState(subject.value);
     const scope = {};
     let isMounted = false;
     let isDirty = false;
@@ -11,8 +12,8 @@ export function useSubject(subject, onMount, onUnmount) {
         isDirty = false;
         onValueChange(value);
     };
-    subject.listen(scope, handleValueChange, { immediate: false });
-    useEffect(() => {
+    lib.useEffect(() => {
+        subject.listen(scope, handleValueChange, { immediate: false });
         if (onMount)
             onMount();
         isMounted = true;

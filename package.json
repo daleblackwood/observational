@@ -6,12 +6,9 @@
   "scripts": {
     "test": "node test",
     "start": "node index",
-    "build": "tsc"
+    "build": "npx tsc -p ./tsconfig.json"
   },
   "author": "Dale Blackwood",
   "license": "MIT",
-  "generator": "http://npmjs.com/tinit",
-  "dependencies": {
-    "typescript": "^4.5.5"
-  }
+  "generator": "http://npmjs.com/tinit"
 }

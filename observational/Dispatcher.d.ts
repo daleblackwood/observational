@@ -1,4 +1,4 @@
-export declare type Handler<T = any, LISTENER extends IListener<T, any> = IListener<T>> = (message: T, listener?: LISTENER) => void;
+export type Handler<T = any, LISTENER extends IListener<T, any> = IListener<T>> = (message: T, listener?: LISTENER) => void;
 export interface IListener<T = any, OWNER extends Dispatcher = Dispatcher> {
     scope: any;
     handler: Handler<T>;
