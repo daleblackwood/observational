@@ -27,7 +27,7 @@ export class Dispatcher<T = any> {
 
   listen(scope: object, handler: Handler<T>, options: DispatchListenerOptions): IListener<T, this> {
     // adds a listener function to the list
-    const existingIndex = this.indexOf(scope, handler);
+    const existingIndex = this.getListenerIndex(scope, handler);
     if (existingIndex >= 0) {
       return this.listeners[existingIndex];
     }
@@ -49,7 +49,7 @@ export class Dispatcher<T = any> {
 
   unlisten(scope: object, handler: Handler<T>) {
     // takes a listener function out of the list
-    const index = this.indexOf(scope, handler);
+    const index = this.getListenerIndex(scope, handler);
     if (index < 0) {
       return;
     }
@@ -68,10 +68,10 @@ export class Dispatcher<T = any> {
 
   hasListener(scope: object, handler: Handler<T>) {
     // returns true if the listener is in the list
-    return this.indexOf(scope, handler) >= 0;
+    return this.getListenerIndex(scope, handler) >= 0;
   }
 
-  indexOf(scope: object, handler: Handler<T>) {
+  getListenerIndex(scope: object, handler: Handler<T>) {
     let i = this.listeners.length;
     while (i-- > 0) {
       const listener = this.listeners[i];
