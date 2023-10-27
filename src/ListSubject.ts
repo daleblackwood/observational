@@ -8,7 +8,7 @@ export class ListSubject<T> extends Subject<T[]> {
 
 	addValue(value: T) {
 		const newList = this.value.slice();
-		const index = newList.push(value);
+		const index = newList.push(value) - 1;
 		this.setValue(newList);
 		return index;
 	}
