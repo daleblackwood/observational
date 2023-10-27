@@ -3,6 +3,7 @@
   LAD.Subject is a dispatcher with a value - an Observable
 */
 import { Dispatcher, DispatchListenerOptions, Handler } from "./Dispatcher";
+import { isMatching } from "./utils";
 
 interface SubjectListenerOptions extends DispatchListenerOptions {
   immediate?: boolean; 
@@ -10,6 +11,9 @@ interface SubjectListenerOptions extends DispatchListenerOptions {
 }
 
 export class Subject<T> extends Dispatcher<T> {
+
+  debounceTime = 0;
+
   constructor(public value: T) {
     super();
   }
@@ -23,10 +27,13 @@ export class Subject<T> extends Dispatcher<T> {
   }
 
   setValue(newValue: T, forceUpdate = false) {
-    if (newValue === this.value && !forceUpdate) {
+    if (!forceUpdate && isMatching(newValue, this.value))
       return;
-    }
     this.value = newValue;
-    this.dispatch(this.value);
+    if (this.debounceTime > 0) {
+      this.dispatchDelayed(newValue, this.debounceTime);
+    } else {
+      this.dispatch(this.value);
+    }
   }
 }
