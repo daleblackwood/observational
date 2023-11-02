@@ -21,7 +21,7 @@ export class Subject<T> extends Dispatcher<T> {
   listen(scope: object, handler: Handler<T>, options: SubjectListenerOptions = {}) {
     const listener = super.listen(scope, handler, { once: options.once });
     if (options.immediate !== false) {
-      listener.boundHandler(this.value);
+      listener.boundHandler(this.value, listener);
     }
     return listener;
   }

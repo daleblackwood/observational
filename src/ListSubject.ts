@@ -6,14 +6,14 @@ export class ListSubject<T> extends Subject<T[]> {
 		super(value || []);
 	}
 
-	addValue(value: T) {
+	addEntry(value: T) {
 		const newList = this.value.slice();
 		const index = newList.push(value) - 1;
 		this.setValue(newList);
 		return index;
 	}
 
-	removeValue(value: T) {
+	removeEntry(value: T) {
 		const index = this.value.indexOf(value);
 		if (index < 0)
 			return;
@@ -22,7 +22,7 @@ export class ListSubject<T> extends Subject<T[]> {
 		this.setValue(newList);
 	}
 
-	replaceValue(index: number, value: T) {
+	replaceEntry(index: number, value: T) {
 		const newList = this.value.slice();
 		newList.splice(index, 1, value);
 		this.setValue(newList);
@@ -32,11 +32,11 @@ export class ListSubject<T> extends Subject<T[]> {
 		this.setValue([]);
 	}
 
-	hasValue(value: T) {
-		return this.indexOfValue(value) >= 0;
+	hasEntry(value: T) {
+		return this.indexOfEntry(value) >= 0;
 	}
 
-	indexOfValue(value: T) {
+	indexOfEntry(value: T) {
 		return this.value.indexOf(value);
 	}
 

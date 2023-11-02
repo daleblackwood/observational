@@ -3,6 +3,9 @@ import { Subject } from "../Subject";
 
 export function useSubject<T>(subject: Subject<T>, onMount?: () => void, onUnmount?: () => void): [T, (value: T) => void] {
 	const lib = requireLib();
+	if (!lib) {
+		throw new Error("observational requires that your React-compatable library is registered once, via initHooks")
+	}
 	const [value, onValueChange] = lib.useState(subject.value);
 	const scope = {};
 	let isMounted = false;

@@ -4,17 +4,15 @@
   listeners. Unlike event dispatchers, LAD.Dispatcher has no type and
   will dispatch to all methods registered to it.
 */
-export type Handler<
-  T = any,
-  LISTENER extends IListener<T, any> = IListener<T>
-> = (message: T, listener?: LISTENER) => void;
 
-export interface IListener<T = any, OWNER extends Dispatcher = Dispatcher> {
+export type Handler<T> = (value: T, listener?: IListener<T>) => unknown;
+
+export interface IListener<T = any> {
   scope: any;
-  handler: Handler<T>;
-  boundHandler: Handler<T, IListener<T, OWNER>>;
+  handler: Handler<T>,
+  boundHandler: Handler<T>,
   once: boolean;
-  owner: OWNER;
+  owner: object;
 }
 
 export interface DispatchListenerOptions {
@@ -22,10 +20,10 @@ export interface DispatchListenerOptions {
 }
 
 export class Dispatcher<T = any> {
-  listeners = Array<IListener<T, this>>();
+  listeners = [] as IListener<T>[];
   dispatchTimer: any;
 
-  listen(scope: object, handler: Handler<T>, options: DispatchListenerOptions): IListener<T, this> {
+  listen(scope: object, handler: Handler<T>, options: DispatchListenerOptions): IListener<T> {
     // adds a listener function to the list
     const existingIndex = this.getListenerIndex(scope, handler);
     if (existingIndex >= 0) {
@@ -38,7 +36,7 @@ export class Dispatcher<T = any> {
       boundHandler,
       owner: this,
       once: options.once === true
-    } as unknown) as IListener<T, this>;
+    } as unknown) as IListener<T>;
     this.listeners.push(listener);
     return listener;
   }
