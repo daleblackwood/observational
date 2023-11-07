@@ -33,5 +33,5 @@ export function useSubject<T>(subject: Subject<T>, onMount?: () => void, onUnmou
 }
 
 export function useValue<T>(subject: Subject<T>, onMount?: () => void, onUnmount?: () => void) {
-	return useSubject(subject, onMount, onUnmount)[0];
+	return (useSubject(subject, onMount, onUnmount)[0]) as T;
 }
