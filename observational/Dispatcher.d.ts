@@ -1,23 +1,23 @@
-export type Handler<T = any, LISTENER extends IListener<T, any> = IListener<T>> = (message: T, listener?: LISTENER) => void;
-export interface IListener<T = any, OWNER extends Dispatcher = Dispatcher> {
+export type Handler<T> = (value: T, listener?: IListener<T>) => unknown;
+export interface IListener<T = any> {
     scope: any;
     handler: Handler<T>;
-    boundHandler: Handler<T, IListener<T, OWNER>>;
+    boundHandler: Handler<T>;
     once: boolean;
-    owner: OWNER;
+    owner: object;
 }
 export interface DispatchListenerOptions {
     once?: boolean;
 }
 export declare class Dispatcher<T = any> {
-    listeners: IListener<T, this>[];
+    listeners: IListener<T>[];
     dispatchTimer: any;
-    listen(scope: object, handler: Handler<T>, options: DispatchListenerOptions): IListener<T, this>;
+    listen(scope: object, handler: Handler<T>, options: DispatchListenerOptions): IListener<T>;
     hook(handler: Handler<T>): void;
     unlisten(scope: object, handler: Handler<T>): void;
     unlistenAll(scope: object): void;
     hasListener(scope: object, handler: Handler<T>): boolean;
-    indexOf(scope: object, handler: Handler<T>): number;
+    getListenerIndex(scope: object, handler: Handler<T>): number;
     dispatch(message: T): void;
     removeOnces(): void;
     dispatchDelayed(message: T, delay?: number): void;

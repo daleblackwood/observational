@@ -5,8 +5,9 @@ interface SubjectListenerOptions extends DispatchListenerOptions {
 }
 export declare class Subject<T> extends Dispatcher<T> {
     value: T;
+    debounceTime: number;
     constructor(value: T);
-    listen(scope: object, handler: Handler<T>, options?: SubjectListenerOptions): import("./Dispatcher").IListener<T, this>;
+    listen(scope: object, handler: Handler<T>, options?: SubjectListenerOptions): import("./Dispatcher").IListener<T>;
     setValue(newValue: T, forceUpdate?: boolean): void;
 }
 export {};

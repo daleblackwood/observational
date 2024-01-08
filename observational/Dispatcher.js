@@ -1,10 +1,16 @@
+/*
+  https://github.com/daleblackwood/ladts
+  LAD.Dispatcher dispatches objects, messages or values to registered
+  listeners. Unlike event dispatchers, LAD.Dispatcher has no type and
+  will dispatch to all methods registered to it.
+*/
 export class Dispatcher {
     constructor() {
-        this.listeners = Array();
+        this.listeners = [];
     }
     listen(scope, handler, options) {
         // adds a listener function to the list
-        const existingIndex = this.indexOf(scope, handler);
+        const existingIndex = this.getListenerIndex(scope, handler);
         if (existingIndex >= 0) {
             return this.listeners[existingIndex];
         }
@@ -24,7 +30,7 @@ export class Dispatcher {
     }
     unlisten(scope, handler) {
         // takes a listener function out of the list
-        const index = this.indexOf(scope, handler);
+        const index = this.getListenerIndex(scope, handler);
         if (index < 0) {
             return;
         }
@@ -41,9 +47,9 @@ export class Dispatcher {
     }
     hasListener(scope, handler) {
         // returns true if the listener is in the list
-        return this.indexOf(scope, handler) >= 0;
+        return this.getListenerIndex(scope, handler) >= 0;
     }
-    indexOf(scope, handler) {
+    getListenerIndex(scope, handler) {
         let i = this.listeners.length;
         while (i-- > 0) {
             const listener = this.listeners[i];

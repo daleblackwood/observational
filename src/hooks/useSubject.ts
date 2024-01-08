@@ -6,7 +6,7 @@ export function useSubject<T>(subject: Subject<T>, onMount?: () => void, onUnmou
 	if (!lib) {
 		throw new Error("observational requires that your React-compatable library is registered once, via initHooks")
 	}
-	const [value, onValueChange] = lib.useState(subject.value);
+	const [value, onValueChange] = lib.useState(subject.value) as [T, (value: T) => void];
 	const scope = {};
 	let isMounted = false;
 	let isDirty = false;
@@ -32,6 +32,8 @@ export function useSubject<T>(subject: Subject<T>, onMount?: () => void, onUnmou
 	return [value, subject.setValue.bind(subject)];
 }
 
-export function useValue<T>(subject: Subject<T>, onMount?: () => void, onUnmount?: () => void) {
-	return (useSubject(subject, onMount, onUnmount)[0]) as T;
+export function useValue<T>(subject: Subject<T>, onMount?: () => void, onUnmount?: () => void): T {
+	const binding = useSubject<T>(subject, onMount, onUnmount);
+	const initValue = binding[0] as T;
+	return initValue;
 }
