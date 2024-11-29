@@ -1,10 +1,13 @@
+"use strict";
 /*
   https://github.com/daleblackwood/ladts
   LAD.Dispatcher dispatches objects, messages or values to registered
   listeners. Unlike event dispatchers, LAD.Dispatcher has no type and
   will dispatch to all methods registered to it.
 */
-export class Dispatcher {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Dispatcher = void 0;
+class Dispatcher {
     constructor() {
         this.listeners = [];
     }
@@ -78,3 +81,4 @@ export class Dispatcher {
         this.dispatchTimer = setTimeout(() => this.dispatch(message), Math.max(0, delay || 0));
     }
 }
+exports.Dispatcher = Dispatcher;

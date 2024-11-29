@@ -1,10 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Subject = void 0;
 /*
   https://github.com/daleblackwood/ladts
   LAD.Subject is a dispatcher with a value - an Observable
 */
-import { Dispatcher } from "./Dispatcher";
-import { isMatching } from "./utils";
-export class Subject extends Dispatcher {
+const Dispatcher_1 = require("./Dispatcher");
+const utils_1 = require("./utils");
+class Subject extends Dispatcher_1.Dispatcher {
     constructor(value) {
         super();
         this.value = value;
@@ -18,7 +21,7 @@ export class Subject extends Dispatcher {
         return listener;
     }
     setValue(newValue, forceUpdate = false) {
-        if (!forceUpdate && isMatching(newValue, this.value))
+        if (!forceUpdate && (0, utils_1.isMatching)(newValue, this.value))
             return;
         this.value = newValue;
         if (this.debounceTime > 0) {
@@ -29,3 +32,4 @@ export class Subject extends Dispatcher {
         }
     }
 }
+exports.Subject = Subject;

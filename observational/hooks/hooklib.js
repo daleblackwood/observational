@@ -1,9 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.initHooks = initHooks;
+exports.requireLib = requireLib;
 let _lib = undefined;
 const requredHooks = [
     "useState",
     "useEffect"
 ];
-export function initHooks(hooksLibrary) {
+function initHooks(hooksLibrary) {
     if (!hooksLibrary) {
         throw new Error("hooks library must be defined");
     }
@@ -17,7 +21,7 @@ export function initHooks(hooksLibrary) {
     }
     _lib = hooksLibrary || undefined;
 }
-export function requireLib() {
+function requireLib() {
     if (!_lib) {
         throw new Error("Observational hooks library not initialised.\
             To call the library from you application's init file\

@@ -1,6 +1,6 @@
 {
   "name": "observational",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Tiny observers for javascript",
   "main": "index.js",
   "scripts": {

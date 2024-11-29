@@ -1,4 +1,7 @@
-export function isMatching(a, b) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isMatching = isMatching;
+function isMatching(a, b) {
     if (a === b)
         return true;
     if (typeof a !== typeof b)

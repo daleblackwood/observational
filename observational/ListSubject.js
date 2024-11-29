@@ -1,5 +1,8 @@
-import { Subject } from "./Subject";
-export class ListSubject extends Subject {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ListSubject = void 0;
+const Subject_1 = require("./Subject");
+class ListSubject extends Subject_1.Subject {
     constructor(value) {
         super(value || []);
     }
@@ -32,3 +35,4 @@ export class ListSubject extends Subject {
         return this.value.indexOf(value);
     }
 }
+exports.ListSubject = ListSubject;

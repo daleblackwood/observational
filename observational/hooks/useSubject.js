@@ -1,6 +1,10 @@
-import { requireLib } from "./hooklib";
-export function useSubject(subject, onMount, onUnmount) {
-    const lib = requireLib();
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useSubject = useSubject;
+exports.useValue = useValue;
+const hooklib_1 = require("./hooklib");
+function useSubject(subject, onMount, onUnmount) {
+    const lib = (0, hooklib_1.requireLib)();
     if (!lib) {
         throw new Error("observational requires that your React-compatable library is registered once, via initHooks");
     }
@@ -31,7 +35,7 @@ export function useSubject(subject, onMount, onUnmount) {
     }, [subject.value]);
     return [value, subject.setValue.bind(subject)];
 }
-export function useValue(subject, onMount, onUnmount) {
+function useValue(subject, onMount, onUnmount) {
     const binding = useSubject(subject, onMount, onUnmount);
     const initValue = binding[0];
     return initValue;
